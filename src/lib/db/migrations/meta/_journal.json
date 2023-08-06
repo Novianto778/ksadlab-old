@@ -1,0 +1,13 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1691229935025,
+      "tag": "0000_careful_living_tribunal",
+      "breakpoints": true
+    }
+  ]
+}
