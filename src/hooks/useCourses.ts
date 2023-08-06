@@ -1,9 +1,9 @@
 import useSWR from 'swr';
-import { Course } from '../lib/db/schema';
 import fetcher from '../lib/fetcher';
+import { CourseWithCourseType } from '../type/courses.type';
 
 const useCourses = () => {
-    const { data, error, isLoading } = useSWR<Course[]>(
+    const { data, error, isLoading } = useSWR<CourseWithCourseType[]>(
         '/api/courses',
         fetcher
     );

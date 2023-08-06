@@ -38,6 +38,7 @@ export const course = mysqlTable(
         description: text('description').notNull(),
         totalModule: tinyint('total_module').notNull(),
         cover: varchar('cover', { length: 255 }),
+        level: smallint('level').notNull(),
         courseTypeId: smallint('course_type_id')
             .notNull()
             .references(() => courseType.courseTypeId),

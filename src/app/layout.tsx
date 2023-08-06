@@ -24,7 +24,7 @@ export default function RootLayout({
                 <body className={outfit.className}>
                     <div className="flex">
                         <ClientSidebar />
-                        <div className="lg:hidden absolute top-0 right-0 scale-50 cursor-pointer">
+                        <div className="lg:hidden absolute top-4 right-4 cursor-pointer">
                             <UserButton afterSignOutUrl="/" />
                         </div>
 
