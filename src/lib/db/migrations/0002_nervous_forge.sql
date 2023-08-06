@@ -1,0 +1,1 @@
+ALTER TABLE `member` MODIFY COLUMN `user_id` varchar(36) NOT NULL;

@@ -1,14 +1,14 @@
 'use client';
 import Heading from '@/components/heading';
-import useCourses from '@/hooks/useCourses';
+import LevelBar from '@/components/level-bar';
 import Loader from '@/components/loader';
-import { CldImage } from 'next-cloudinary';
-import { placeholderImageURL } from '../../config/constant/url';
-import { Button } from '../../components/ui/button';
+import { Button } from '@/components/ui/button';
+import { placeholderImageURL } from '@/config/constant/url';
+import useCourses from '@/hooks/useCourses';
+import { useSidebarStore } from '@/store/sidebarStore';
+import { cn } from '@/utils/cn';
 import { Lock } from 'lucide-react';
-import LevelBar from '../../components/level-bar';
-import { useSidebarStore } from '../../store/sidebarStore';
-import { cn } from '../../utils/cn';
+import Image from 'next/image';
 
 const CoursePage = () => {
     const { courses, isLoading, isError } = useCourses();
@@ -39,7 +39,7 @@ const CoursePage = () => {
                         key={course.courseId}
                         className="overflow-hidden bg-white rounded-lg shadow-lg"
                     >
-                        <CldImage
+                        <Image
                             src={course.cover || placeholderImageURL}
                             className="object-cover w-full h-48"
                             width={400}

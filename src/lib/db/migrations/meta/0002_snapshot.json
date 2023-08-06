@@ -1,0 +1,655 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "7be73a36-1af8-445c-b023-a0704c8a8bf7",
+  "prevId": "2af7309b-16aa-48e1-a9ca-b5761f2ed6fb",
+  "tables": {
+    "assignment": {
+      "name": "assignment",
+      "columns": {
+        "assignment_id": {
+          "name": "assignment_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "due_date": {
+          "name": "due_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "start_date": {
+          "name": "start_date",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "available_until": {
+          "name": "available_until",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "module_id": {
+          "name": "module_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_assignment_module1_idx": {
+          "name": "fk_assignment_module1_idx",
+          "columns": [
+            "module_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "assignment_module_id_module_module_id_fk": {
+          "name": "assignment_module_id_module_module_id_fk",
+          "tableFrom": "assignment",
+          "tableTo": "module",
+          "columnsFrom": [
+            "module_id"
+          ],
+          "columnsTo": [
+            "module_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "assignment_assignment_id": {
+          "name": "assignment_assignment_id",
+          "columns": [
+            "assignment_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "course": {
+      "name": "course",
+      "columns": {
+        "course_id": {
+          "name": "course_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "total_module": {
+          "name": "total_module",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "cover": {
+          "name": "cover",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "level": {
+          "name": "level",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "course_type_id": {
+          "name": "course_type_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_course_course_type_idx": {
+          "name": "fk_course_course_type_idx",
+          "columns": [
+            "course_type_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "course_course_type_id_course_type_course_type_id_fk": {
+          "name": "course_course_type_id_course_type_course_type_id_fk",
+          "tableFrom": "course",
+          "tableTo": "course_type",
+          "columnsFrom": [
+            "course_type_id"
+          ],
+          "columnsTo": [
+            "course_type_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "course_course_id": {
+          "name": "course_course_id",
+          "columns": [
+            "course_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "module": {
+      "name": "module",
+      "columns": {
+        "module_id": {
+          "name": "module_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "course_id": {
+          "name": "course_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_module_course1_idx": {
+          "name": "fk_module_course1_idx",
+          "columns": [
+            "course_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "module_course_id_course_course_id_fk": {
+          "name": "module_course_id_course_course_id_fk",
+          "tableFrom": "module",
+          "tableTo": "course",
+          "columnsFrom": [
+            "course_id"
+          ],
+          "columnsTo": [
+            "course_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "module_module_id": {
+          "name": "module_module_id",
+          "columns": [
+            "module_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "course_type": {
+      "name": "course_type",
+      "columns": {
+        "course_type_id": {
+          "name": "course_type_id",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "course_type_course_type_id": {
+          "name": "course_type_course_type_id",
+          "columns": [
+            "course_type_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "member": {
+      "name": "member",
+      "columns": {
+        "member_id": {
+          "name": "member_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "level": {
+          "name": "level",
+          "type": "tinyint",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 1
+        },
+        "point": {
+          "name": "point",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "angkatan": {
+          "name": "angkatan",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "member_member_id": {
+          "name": "member_member_id",
+          "columns": [
+            "member_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "member_assignment": {
+      "name": "member_assignment",
+      "columns": {
+        "assignment_id": {
+          "name": "assignment_id",
+          "type": "varchar(36)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "member_id": {
+          "name": "member_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "url": {
+          "name": "url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_member_assignment_member1_idx": {
+          "name": "fk_member_assignment_member1_idx",
+          "columns": [
+            "member_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "member_assignment_assignment_id_assignment_assignment_id_fk": {
+          "name": "member_assignment_assignment_id_assignment_assignment_id_fk",
+          "tableFrom": "member_assignment",
+          "tableTo": "assignment",
+          "columnsFrom": [
+            "assignment_id"
+          ],
+          "columnsTo": [
+            "assignment_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "member_assignment_member_id_member_member_id_fk": {
+          "name": "member_assignment_member_id_member_member_id_fk",
+          "tableFrom": "member_assignment",
+          "tableTo": "member",
+          "columnsFrom": [
+            "member_id"
+          ],
+          "columnsTo": [
+            "member_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "member_assignment_assignment_id_member_id": {
+          "name": "member_assignment_assignment_id_member_id",
+          "columns": [
+            "assignment_id",
+            "member_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "member_course": {
+      "name": "member_course",
+      "columns": {
+        "member_course_id": {
+          "name": "member_course_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "progress": {
+          "name": "progress",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "member_id": {
+          "name": "member_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "course_id": {
+          "name": "course_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_member_course_member1_idx": {
+          "name": "fk_member_course_member1_idx",
+          "columns": [
+            "member_id"
+          ],
+          "isUnique": false
+        },
+        "fk_member_course_course1_idx": {
+          "name": "fk_member_course_course1_idx",
+          "columns": [
+            "course_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "member_course_member_id_member_member_id_fk": {
+          "name": "member_course_member_id_member_member_id_fk",
+          "tableFrom": "member_course",
+          "tableTo": "member",
+          "columnsFrom": [
+            "member_id"
+          ],
+          "columnsTo": [
+            "member_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "member_course_course_id_course_course_id_fk": {
+          "name": "member_course_course_id_course_course_id_fk",
+          "tableFrom": "member_course",
+          "tableTo": "course",
+          "columnsFrom": [
+            "course_id"
+          ],
+          "columnsTo": [
+            "course_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "member_course_member_course_id": {
+          "name": "member_course_member_course_id",
+          "columns": [
+            "member_course_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "member_progress": {
+      "name": "member_progress",
+      "columns": {
+        "member_course_id": {
+          "name": "member_course_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "submodule_id": {
+          "name": "submodule_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "status": {
+          "name": "status",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_member_progress_submodule1_idx": {
+          "name": "fk_member_progress_submodule1_idx",
+          "columns": [
+            "submodule_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "member_progress_member_course_id_member_course_member_course_id_fk": {
+          "name": "member_progress_member_course_id_member_course_member_course_id_fk",
+          "tableFrom": "member_progress",
+          "tableTo": "member_course",
+          "columnsFrom": [
+            "member_course_id"
+          ],
+          "columnsTo": [
+            "member_course_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "member_progress_submodule_id_submodule_submodule_id_fk": {
+          "name": "member_progress_submodule_id_submodule_submodule_id_fk",
+          "tableFrom": "member_progress",
+          "tableTo": "submodule",
+          "columnsFrom": [
+            "submodule_id"
+          ],
+          "columnsTo": [
+            "submodule_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "member_progress_member_course_id_submodule_id": {
+          "name": "member_progress_member_course_id_submodule_id",
+          "columns": [
+            "member_course_id",
+            "submodule_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "submodule": {
+      "name": "submodule",
+      "columns": {
+        "submodule_id": {
+          "name": "submodule_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "title": {
+          "name": "title",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "moduleUrl": {
+          "name": "moduleUrl",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "order": {
+          "name": "order",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "module_id": {
+          "name": "module_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "fk_submodule_module1_idx": {
+          "name": "fk_submodule_module1_idx",
+          "columns": [
+            "module_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {
+        "submodule_module_id_module_module_id_fk": {
+          "name": "submodule_module_id_module_module_id_fk",
+          "tableFrom": "submodule",
+          "tableTo": "module",
+          "columnsFrom": [
+            "module_id"
+          ],
+          "columnsTo": [
+            "module_id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "submodule_submodule_id": {
+          "name": "submodule_submodule_id",
+          "columns": [
+            "submodule_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    }
+  },
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
