@@ -1,5 +1,8 @@
 'use client';
+import { useMediaQuery } from '@/hooks/useMediaQueries';
+import { useSidebarStore } from '@/store/sidebarStore';
 import { cn } from '@/utils/cn';
+import { SignOutButton } from '@clerk/nextjs';
 import {
     BookOpen,
     ChevronsRight,
@@ -8,21 +11,27 @@ import {
     LayoutDashboard,
     LogOut,
 } from 'lucide-react';
-import { useSidebarStore } from '@/store/sidebarStore';
-import SidebarListItem from './SidebarListItem';
 import Image from 'next/image';
-import { SignOutButton } from '@clerk/nextjs';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
+import SidebarListItem from './SidebarListItem';
 const Sidebar = () => {
-    const { isOpen, toggleSidebar } = useSidebarStore();
+    const { isOpen, toggleSidebar, setIsOpen } = useSidebarStore();
+    const matches = useMediaQuery('(max-width: 768px)');
+
+    useEffect(() => {
+        if (matches) {
+            setIsOpen(false);
+        }
+    }, [matches, setIsOpen]);
 
     const pathname = usePathname();
 
     const Menus = [
         { title: 'Dashboard', icon: LayoutDashboard, path: '/' },
-        { title: 'Course', icon: BookOpen, path: '/course' },
+        { title: 'Courses', icon: BookOpen, path: '/courses' },
         { title: 'Assignment', icon: ClipboardList, path: '/assignment' },
-        { title: 'Student', icon: GraduationCap, path: '/student' },
+        { title: 'members', icon: GraduationCap, path: '/members' },
     ];
 
     return (
@@ -32,11 +41,17 @@ const Sidebar = () => {
                     isOpen ? 'w-72' : 'w-20 '
                 } bg-sidebar h-screen p-5 pt-8 sticky top-0 duration-300`}
             >
-                <ChevronsRight
-                    className={`absolute cursor-pointer -right-3 top-9 w-7
-                            border-2 rounded-full  ${!isOpen && 'rotate-180'}`}
-                    onClick={toggleSidebar}
-                />
+                {!matches ? (
+                    <div>
+                        <ChevronsRight
+                            className={`absolute cursor-pointer -right-3 top-9 w-7
+                                        border-2 rounded-full  ${
+                                            !isOpen && 'rotate-180'
+                                        }`}
+                            onClick={toggleSidebar}
+                        />
+                    </div>
+                ) : null}
                 <div className="flex gap-x-4 items-center">
                     <Image alt="logo" src="/logo.png" width={40} height={40} />
                     <h1
@@ -47,7 +62,7 @@ const Sidebar = () => {
                         KSADLAB
                     </h1>
                 </div>
-                <ul className="pt-6">
+                <div className="pt-6">
                     {Menus.map((Menu, index) => {
                         const isActive =
                             pathname === '/'
@@ -78,7 +93,7 @@ const Sidebar = () => {
                             )}
                         />
                     </SignOutButton>
-                </ul>
+                </div>
             </div>
         </>
     );

@@ -74,6 +74,10 @@ module.exports = {
                     },
                 },
             },
+            width: {
+                'course-content': 'calc(100vw - 18rem)',
+                'course-content-lg': 'calc(100vw - 5rem)',
+            },
             height: {
                 'course-content': 'calc(100vh - 10rem)',
             },

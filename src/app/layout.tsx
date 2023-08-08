@@ -1,10 +1,10 @@
-import { ClerkProvider, UserButton } from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from 'next';
 import { Outfit } from 'next/font/google';
-import ClientRightSidebar from '../components/client-only/ClientRightSidebar';
-import { Sidebar } from '../components/layout';
+import ClientRightSidebar from '@/components/client-only/ClientRightSidebar';
+import ClientSidebar from '@/components/client-only/ClientSidebar';
 import './globals.css';
-import ClientSidebar from '../components/client-only/ClientSidebar';
+import { Toaster } from 'react-hot-toast';
 
 const outfit = Outfit({ subsets: ['latin'] });
 
@@ -22,13 +22,12 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="en">
                 <body className={outfit.className}>
-                    <div className="flex">
+                    <div className="flex w-full max-w-full">
                         <ClientSidebar />
-                        <div className="lg:hidden absolute top-4 right-4 cursor-pointer">
-                            <UserButton afterSignOutUrl="/" />
+                        <Toaster />
+                        <div className="flex-1 px-8 py-4 max-w-full w-course-content">
+                            {children}
                         </div>
-
-                        <div className="flex-1 px-8 py-4">{children}</div>
                         <ClientRightSidebar />
                     </div>
                 </body>

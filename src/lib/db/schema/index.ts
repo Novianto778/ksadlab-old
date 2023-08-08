@@ -71,7 +71,8 @@ export const member = mysqlTable(
     'member',
     {
         memberId: int('member_id').autoincrement().notNull(),
-        name: varchar('name', { length: 45 }).notNull(),
+        name: varchar('name', { length: 100 }).notNull(),
+        username: varchar('username', { length: 100 }).notNull(),
         level: tinyint('level').default(1),
         point: smallint('point'),
         angkatan: smallint('angkatan').notNull(),
