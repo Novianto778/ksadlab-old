@@ -1,2 +1,2 @@
-export { default as Sidebar } from './Sidebar';
-export { default as SidebarListItem } from './SidebarListItem';
+export { default as Sidebar } from './sidebar';
+export { default as SidebarListItem } from './sidebar-list-item';

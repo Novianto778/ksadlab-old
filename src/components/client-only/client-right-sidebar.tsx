@@ -1,6 +1,6 @@
 'use client';
 import { UserButton } from '@clerk/nextjs';
-import RightSidebar from '@/components/layout/RightSidebar';
+import RightSidebar from '@/components/layout/right-sidebar';
 import { usePathname } from 'next/navigation';
 
 type Props = {};

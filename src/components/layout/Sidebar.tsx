@@ -1,5 +1,5 @@
 'use client';
-import { useMediaQuery } from '@/hooks/useMediaQueries';
+import useMediaQuery from '@/hooks/useMediaQueries';
 import { useSidebarStore } from '@/store/sidebarStore';
 import { cn } from '@/utils/cn';
 import { SignOutButton } from '@clerk/nextjs';
@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-import SidebarListItem from './SidebarListItem';
+import SidebarListItem from './sidebar-list-item';
 const Sidebar = () => {
     const { isOpen, toggleSidebar, setIsOpen } = useSidebarStore();
     const matches = useMediaQuery('(max-width: 768px)');

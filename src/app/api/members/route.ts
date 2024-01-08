@@ -1,7 +1,7 @@
+import { AddMemberForm } from '@/components/features/members/add-member-dialog';
 import { db } from '@/lib/db';
 import { member } from '@/lib/db/schema';
 import { NextResponse } from 'next/server';
-import { AddMemberForm } from '../../../components/features/members/AddMemberDialog';
 
 export async function GET() {
     const members = await db.select().from(member);
@@ -58,29 +58,4 @@ export async function POST(req: Request) {
 
         return NextResponse.json({ message: error.message }, { status: 500 });
     }
-
-    // const response = await fetch(url, {
-    //     method: 'POST',
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //         Authorization: `Bearer ${token}`,
-    //     },
-    //     body: JSON.stringify(body),
-    // });
-
-    // const data = await response.json();
-
-    // if (data) {
-    //     await db.insert(member).values({
-    //         userId: data.id,
-    //         name: data.username,
-    //         angkatan: 2021,
-    //         level: 2,
-    //         point: 0,
-    //     });
-    // }
-
-    // return NextResponse.json(data, {
-    //     status: response.status,
-    // });
 }

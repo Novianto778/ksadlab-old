@@ -79,7 +79,7 @@ module.exports = {
                 'course-content-lg': 'calc(100vw - 5rem)',
             },
             height: {
-                'course-content': 'calc(100vh - 10rem)',
+                'course-content': 'calc(100vh - 13rem)',
             },
             backgroundImage: {
                 login: "url('/bg-login.webp')",

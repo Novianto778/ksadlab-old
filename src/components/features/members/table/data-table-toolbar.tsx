@@ -67,11 +67,11 @@ export function DataTableToolbar<TData>({
                         options={[
                             {
                                 label: '2022',
-                                value: '2022',
+                                value: 2022,
                             },
                             {
                                 label: '2023',
-                                value: '2023',
+                                value: 2023,
                             },
                         ]}
                     />

@@ -12,6 +12,7 @@ type Props = {
 const RightSidebar = ({ className }: Props) => {
     const { theme, toggleTheme } = useDarkMode();
     const { isLoaded, user } = useUser();
+
     return (
         <div className={cn('w-80 p-4 flex flex-col items-center', className)}>
             <div className="flex items-center justify-between w-full">

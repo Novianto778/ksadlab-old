@@ -1,4 +1,4 @@
-import { InferModel } from 'drizzle-orm';
+import { InferModel, relations, sql } from 'drizzle-orm';
 import {
     datetime,
     index,
@@ -38,8 +38,8 @@ export const course = mysqlTable(
         title: varchar('title', { length: 255 }).notNull(),
         description: text('description').notNull(),
         totalModule: tinyint('total_module').notNull(),
-        cover: varchar('cover', { length: 255 }),
         level: smallint('level').notNull(),
+        cover: varchar('cover', { length: 255 }),
         courseTypeId: smallint('course_type_id')
             .notNull()
             .references(() => courseType.courseTypeId),
@@ -72,13 +72,11 @@ export const member = mysqlTable(
     {
         memberId: int('member_id').autoincrement().notNull(),
         name: varchar('name', { length: 100 }).notNull(),
-        username: varchar('username', { length: 100 }).notNull(),
+        username: varchar('username', { length: 45 }).notNull(),
         level: tinyint('level').default(1),
         point: smallint('point'),
         angkatan: smallint('angkatan').notNull(),
-        userId: varchar('user_id', {
-            length: 36,
-        }).notNull(),
+        userId: varchar('user_id', { length: 36 }).notNull(),
     },
     (table) => {
         return {
@@ -116,7 +114,7 @@ export const memberCourse = mysqlTable(
     {
         memberCourseId: int('member_course_id').autoincrement().notNull(),
         progress: smallint('progress').notNull(),
-        status: varchar('status', { length: 45 }),
+        status: varchar('status', { length: 45 }).default('ongoing'),
         memberId: int('member_id')
             .notNull()
             .references(() => member.memberId),
@@ -126,11 +124,11 @@ export const memberCourse = mysqlTable(
     },
     (table) => {
         return {
-            fkMemberCourseMember1Idx: index('fk_member_course_member1_idx').on(
-                table.memberId
-            ),
             fkMemberCourseCourse1Idx: index('fk_member_course_course1_idx').on(
                 table.courseId
+            ),
+            fkMemberCourseMember1Idx: index('fk_member_course_member1_idx').on(
+                table.memberId
             ),
             memberCourseMemberCourseId: primaryKey(table.memberCourseId),
         };
@@ -146,7 +144,13 @@ export const memberProgress = mysqlTable(
         submoduleId: int('submodule_id')
             .notNull()
             .references(() => submodule.submoduleId),
-        status: varchar('status', { length: 45 }).notNull(),
+        completed: tinyint('completed').default(0),
+        createdAt: datetime('created_at', { mode: 'date' }).default(
+            sql`CURRENT_TIMESTAMP`
+        ),
+        updatedAt: datetime('updated_at', { mode: 'date' }).default(
+            sql`CURRENT_TIMESTAMP`
+        ),
     },
     (table) => {
         return {
@@ -167,9 +171,7 @@ export const courseModule = mysqlTable(
         moduleId: int('module_id').autoincrement().notNull(),
         title: varchar('title', { length: 255 }).notNull(),
         order: smallint('order').notNull(),
-        courseId: int('course_id')
-            .notNull()
-            .references(() => course.courseId),
+        courseId: int('course_id').notNull(),
     },
     (table) => {
         return {
@@ -189,9 +191,7 @@ export const submodule = mysqlTable(
         type: varchar('type', { length: 45 }).notNull(),
         moduleUrl: varchar('moduleUrl', { length: 255 }).notNull(),
         order: smallint('order').notNull(),
-        moduleId: int('module_id')
-            .notNull()
-            .references(() => courseModule.moduleId),
+        moduleId: int('module_id').notNull(),
     },
     (table) => {
         return {
@@ -202,6 +202,73 @@ export const submodule = mysqlTable(
         };
     }
 );
+
+export const memberRelations = relations(member, ({ many }) => ({
+    memberCourse: many(memberCourse),
+    memberAssignment: many(memberAssignment),
+}));
+
+export const memberCourseRelations = relations(
+    memberCourse,
+    ({ many, one }) => ({
+        memberProgress: many(memberProgress),
+        member: one(member, {
+            fields: [memberCourse.memberId],
+            references: [member.memberId],
+        }),
+    })
+);
+
+export const memberProgressRelations = relations(memberProgress, ({ one }) => ({
+    submodule: one(submodule, {
+        fields: [memberProgress.submoduleId],
+        references: [submodule.submoduleId],
+    }),
+    memberCourse: one(memberCourse, {
+        fields: [memberProgress.memberCourseId],
+        references: [memberCourse.memberCourseId],
+    }),
+}));
+
+export const memberAssignmentRelations = relations(
+    memberAssignment,
+    ({ one }) => ({
+        assignment: one(assignment, {
+            fields: [memberAssignment.assignmentId],
+            references: [assignment.assignmentId],
+        }),
+        member: one(member, {
+            fields: [memberAssignment.memberId],
+            references: [member.memberId],
+        }),
+    })
+);
+
+export const coursesRelations = relations(course, ({ many, one }) => ({
+    courseModule: many(courseModule),
+    courseType: one(courseType, {
+        fields: [course.courseTypeId],
+        references: [courseType.courseTypeId],
+    }),
+}));
+
+export const courseModuleRelations = relations(
+    courseModule,
+    ({ many, one }) => ({
+        submodules: many(submodule),
+        course: one(course, {
+            fields: [courseModule.courseId],
+            references: [course.courseId],
+        }),
+    })
+);
+
+export const submoduleRelations = relations(submodule, ({ one }) => ({
+    module: one(courseModule, {
+        fields: [submodule.moduleId],
+        references: [courseModule.moduleId],
+    }),
+}));
 
 export type Assignment = InferModel<typeof assignment>;
 export type NewAssignment = InferModel<typeof assignment, 'insert'>;
@@ -216,6 +283,7 @@ export type NewMemberAssignment = InferModel<typeof memberAssignment, 'insert'>;
 export type MemberCourse = InferModel<typeof memberCourse>;
 export type NewMemberCourse = InferModel<typeof memberCourse, 'insert'>;
 export type MemberProgress = InferModel<typeof memberProgress>;
+
 export type NewMemberProgress = InferModel<typeof memberProgress, 'insert'>;
 export type CourseModule = InferModel<typeof courseModule>;
 export type NewCourseModule = InferModel<typeof courseModule, 'insert'>;

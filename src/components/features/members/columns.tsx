@@ -62,6 +62,9 @@ export const memberColumns: ColumnDef<Member>[] = [
         header: ({ column }) => {
             return <DataTableColumnHeader column={column} title="Angkatan" />;
         },
+        filterFn: (row, id, value) => {
+            return value.includes(row.getValue(id));
+        },
     },
     {
         accessorKey: 'point',

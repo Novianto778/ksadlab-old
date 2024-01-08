@@ -94,18 +94,6 @@ const AddMemberDialog = ({ children }: Props) => {
             console.log('error', e);
             toast.error(e.response.data.message);
         }
-        // const promise = await addMember(values);
-        // // toast.promise(promise, {
-        // //     loading: 'Loading...',
-        // //     success: 'Member created',
-        // //     error: 'Failed to create member',
-        // // });
-        // // const res = await promise;
-        // console.log('res', promise);
-
-        // mutate();
-        // setIsOpen(false);
-        // form.reset();
     }
     return (
         <Dialog open={isOpen}>
